@@ -1,0 +1,25 @@
+header {
+    padding: 20px;
+    text-align: center;
+    color: white;
+    font-size: x-large;
+    font-family: 'Goblin-one', sans-serif;
+    background: linear-gradient(to right, lightblue, navy);
+}
+
+.title {
+    color: black;
+    font-size: large;
+    font-weight: bold;
+    font-family: 'Goblin-one', sans-serif;
+}
+
+.btn {
+    background-color: navy;
+    color: white;
+    text-align: center;
+}
+
+.current {
+    margin: 10px;
+}
