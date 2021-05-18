@@ -1,5 +1,6 @@
 header {
     padding: 20px;
+    margin-bottom: 20px;
     text-align: center;
     color: white;
     font-size: x-large;
@@ -22,4 +23,33 @@ header {
 
 .current {
     margin: 10px;
+    background-color: lightskyblue;
+    color: navy;
+}
+
+.forecast {
+    background-color: rgb(13, 37, 88);
+    color: white;
+    font-family: 'Goblin-one', sans-serif;
+}
+
+.storedBtn {
+    background-color: gray;
+    font-family: 'Goblin-one', sans-serif;
+    color: black;
+}
+
+.favorable {
+    background-color: lightgreen;
+    color: black;
+}
+
+.moderate {
+    background-color: yellow;
+    color: black;
+}
+
+.severe {
+    background-color: red;
+    color: white;
 }
