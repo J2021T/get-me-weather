@@ -21,6 +21,10 @@ header {
     text-align: center;
 }
 
+.btn:hover {
+    background-color: lightslategrey;
+}
+
 .current {
     margin: 10px;
     background-color: lightskyblue;

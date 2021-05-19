@@ -1,7 +1,5 @@
 var citiesFormEL = document.querySelector('#city-form');
 var cityNameEL = document.querySelector('#city');
-var dayIndex = 0;
-var dayCard = '';
 
 var formSubmitHandler = function(event) {
     event.preventDefault();
@@ -10,8 +8,6 @@ var formSubmitHandler = function(event) {
     if (cityNameEL !== '') {
     //get the city input value
     var cityName = cityNameEL.value.trim();
-
-    console.log(cityName);
 
     getMyWeather(cityName);
     } else {
@@ -28,8 +24,6 @@ var getMyWeather = function(cityName) {
                 response.json().then(function(data) {
                 var lat = data[0].lat;
                 var lon = data[0].lon;
-                console.log(lat);
-                console.log(lon);
 
                 return fetch('https://api.openweathermap.org/data/2.5/onecall?lat='+ lat +'&lon='+ lon +'&units=imperial&exclude=minutely,hourly,alerts&appid=f63a069e27328750769e0a8925c0d4d8');
                 }).then(function(response) {
@@ -38,7 +32,6 @@ var getMyWeather = function(cityName) {
                     // city current name, date, and icon
                     var cityTitleEl = document.querySelector('#city-date');
                     cityTitleEl.innerHTML = cityName + " " + moment.unix(data.current.dt).format('MM/DD/YYYY') + ' <img src="http://openweathermap.org/img/wn/' + data.current.weather[0].icon + '.png">';
-                    console.log(cityTitleEl);
                     // city current temp info
                     var currentTempEl = document.querySelector('#temp');
                     currentTempEl.innerHTML = data.current.temp + '<span>&#176;</span>F';
@@ -51,7 +44,7 @@ var getMyWeather = function(cityName) {
                     // city current uv index info
                     var currentUVIndexEl = document.querySelector('#uv-index');
                     currentUVIndexEl.innerHTML = data.current.uvi;
-                    console.log(currentUVIndexEl.textContent);
+                    // if statement for uv index to be highlighted by appropriate color
                     if (parseInt(currentUVIndexEl.textContent) < 3) {
                         currentUVIndexEl.setAttribute('class', 'favorable');
                     } else if (parseInt(currentUVIndexEl.textContent) > 7) {
@@ -59,6 +52,37 @@ var getMyWeather = function(cityName) {
                     } else {
                         currentUVIndexEl.setAttribute('class', 'moderate');
                     }
+                    
+                    
+                    var dayForecast = function(dayCard, dayIndex) {
+                    // date info
+                    var forecastDateEl = document.querySelector('#'+ dayCard +'-date');
+                    forecastDateEl.innerHTML = moment.unix(data.daily[dayIndex].dt).format('MM/DD/YYYY');
+                    // icon info
+                    var forecastIconEl = document.querySelector('#'+ dayCard +'-icon');
+                    forecastIconEl.innerHTML = '<img src="http://openweathermap.org/img/wn/' + data.daily[dayIndex].weather[0].icon + '.png">'
+                    // temp info
+                    var forecastTempEl = document.querySelector('#'+ dayCard +'-temp');
+                    forecastTempEl.innerHTML = data.daily[dayIndex].temp.max + '<span>&#176;</span>F';
+                    // wind info
+                    var forecastWindEl = document.querySelector('#'+ dayCard +'-wind');
+                    forecastWindEl.innerHTML = data.daily[dayIndex].wind_speed + ' MPH';
+                    // humidity info
+                    var forecastWindEl = document.querySelector('#'+ dayCard +'-humidity');
+                    forecastWindEl.innerHTML = data.daily[dayIndex].humidity + '<span>&#37;</span>';
+                    };
+                    // 5 day forecast
+                    var dayCardArr = ['d1', 'd2', 'd3', 'd4', 'd5'];
+                    var dayIndexArr = [1, 2, 3, 4, 5];
+                    dayCardArr.forEach((dayCard, index) => {
+                        var dayIndex = dayIndexArr[index];
+                        console.log(dayCard, dayIndex);
+                        console.log(dayCard === null);
+                        console.log(dayIndex === null);
+                        dayForecast(dayCard, dayIndex);
+                    })
+                    // forEach(dayForecast(dayCard,dayIndex));
+                    
                     });
                 });
         } else {
@@ -67,11 +91,19 @@ var getMyWeather = function(cityName) {
     });        
 };
 
-// var dayForecast = function(dayCard, dayIndex) {
-//     var dayCard = 
-// }
-// // $(document).on('click', '.btn', function() 
-// { 
-//     console.log("clicked"); 
-// });
+// // date info
+// var forecastDateEl = document.querySelector('#'+ dayCard +'-date');
+// forecastDateEl.innerHTML = moment.unix(data.daily[parseInt(dayIndex)].dt).format('MM/DD/YYYY');
+// // icon info
+// var forecastIconEl = document.querySelector('#'+ dayCard +'-icon');
+// forecastIconEl.innerHTML = '<img src="http://openweathermap.org/img/wn/' + data.daily[dayIndex].weather[0].icon + '.png">'
+// // temp info
+// var forecastTempEl = document.querySelector('#'+ dayCard +'-temp');
+// forecastTempEl.innerHTML = data.daily[dayIndex].temp.max + '<span>&#176;</span>F';
+// // wind info
+// var forecastWindEl = document.querySelector('#'+ dayCard +'-temp');
+// forecastWindEl.innerHTML = data.daily[dayIndex].wind_speed + ' MPH';
+// // humidity info
+// var forecastWindEl = document.querySelector('#'+ dayCard +'-temp');
+// forecastWindEl.innerHTML = data.daily[dayIndex].humidity + '<span>&#37;</span>';
 
