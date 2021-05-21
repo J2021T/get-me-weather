@@ -1,15 +1,40 @@
+var cityList = [];
 var citiesFormEL = document.querySelector('#city-form');
 var cityNameEL = document.querySelector('#city');
+var storedCitiesFormEl = document.querySelector('#savedFormGroup');
 
+// display list of saved cities
+var getSavedCities = function() {
+    var savedCities = JSON.parse(localStorage.getItem('cities'));
+
+    if (savedCities !== null) {
+        cityList = savedCities;
+    }
+
+    cityList.forEach((city, index) => {
+        console.log(city);
+        var formList = document.querySelector('#savedFormGroup');
+        var cityButton = document.createElement('button');
+        cityButton.setAttribute('class', 'col-12 storedBtn');
+        cityButton.textContent = city;
+        formList.appendChild(cityButton); 
+    });
+    
+};
+
+getSavedCities();
+
+// form submission handler if city is entered
 var formSubmitHandler = function(event) {
     event.preventDefault();
 
     //Check if city is blank then alert
     if (cityNameEL !== '') {
     //get the city input value
-    var cityName = cityNameEL.value.trim();
+    var cityName = cityNameEL.value.toUpperCase().trim();
 
     getMyWeather(cityName);
+    cityNameEL.value = '';
     } else {
         alert('Please enter a city name.');
     };
@@ -17,11 +42,26 @@ var formSubmitHandler = function(event) {
 
 citiesFormEL.addEventListener("submit", formSubmitHandler);
 
+// function to store saved cities
+function saveCity () {
+    localStorage.setItem('cities', JSON.stringify(cityList));
+    document.querySelector('#savedFormGroup').innerHTML = '<label class="title">Saved Cities</label>';
+    getSavedCities();
+}
+
 // get weather data from OpenWeather
 var getMyWeather = function(cityName) {
     fetch('http://api.openweathermap.org/geo/1.0/direct?q='+ cityName +'&limit=1&appid=f63a069e27328750769e0a8925c0d4d8').then(function(response) {
-        if (response.ok) {
-                response.json().then(function(data) {
+        if (response.status !== 200) {
+            alert('Either the city name you entered was invalid or the program is not working.  Please try again with a valid city name.');
+        } else if (response.value === undefined) {
+            alert('Either the city name you entered was invalid or the program is not working.  Please try again with a valid city name.');
+        }
+        else {
+            console.log(response.value);
+            cityList.push(cityName);
+            saveCity();
+            response.json().then(function(data) {
                 var lat = data[0].lat;
                 var lon = data[0].lon;
 
@@ -76,34 +116,13 @@ var getMyWeather = function(cityName) {
                     var dayIndexArr = [1, 2, 3, 4, 5];
                     dayCardArr.forEach((dayCard, index) => {
                         var dayIndex = dayIndexArr[index];
-                        console.log(dayCard, dayIndex);
-                        console.log(dayCard === null);
-                        console.log(dayIndex === null);
                         dayForecast(dayCard, dayIndex);
                     })
                     // forEach(dayForecast(dayCard,dayIndex));
                     
                     });
                 });
-        } else {
-            alert('Either an invalid city name was entered or the site is not working.  Please try again with a valid city name');
         }
     });        
 };
-
-// // date info
-// var forecastDateEl = document.querySelector('#'+ dayCard +'-date');
-// forecastDateEl.innerHTML = moment.unix(data.daily[parseInt(dayIndex)].dt).format('MM/DD/YYYY');
-// // icon info
-// var forecastIconEl = document.querySelector('#'+ dayCard +'-icon');
-// forecastIconEl.innerHTML = '<img src="http://openweathermap.org/img/wn/' + data.daily[dayIndex].weather[0].icon + '.png">'
-// // temp info
-// var forecastTempEl = document.querySelector('#'+ dayCard +'-temp');
-// forecastTempEl.innerHTML = data.daily[dayIndex].temp.max + '<span>&#176;</span>F';
-// // wind info
-// var forecastWindEl = document.querySelector('#'+ dayCard +'-temp');
-// forecastWindEl.innerHTML = data.daily[dayIndex].wind_speed + ' MPH';
-// // humidity info
-// var forecastWindEl = document.querySelector('#'+ dayCard +'-temp');
-// forecastWindEl.innerHTML = data.daily[dayIndex].humidity + '<span>&#37;</span>';
 

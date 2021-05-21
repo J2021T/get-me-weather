@@ -38,9 +38,15 @@ header {
 }
 
 .storedBtn {
-    background-color: gray;
+    background-color: lightgray;
     font-family: 'Goblin-one', sans-serif;
     color: black;
+}
+
+.storedBtn:hover {
+    background-color: navy;
+    color: white;
+    text-align: center;
 }
 
 .favorable {
