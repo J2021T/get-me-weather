@@ -89,7 +89,7 @@ var getMyWeather = function(cityName) {
                             console.log(data);
                             // city current name, date, and icon
                             var cityTitleEl = document.querySelector('#city-date');
-                            cityTitleEl.innerHTML = cityName + " " + moment.unix(data.current.dt).format('MM/DD/YYYY') + ' <img src="http://openweathermap.org/img/wn/' + data.current.weather[0].icon + '.png">';
+                            cityTitleEl.innerHTML = cityName + " " + moment.unix(data.current.dt).format('MM/DD/YYYY') + ' <img src="https://openweathermap.org/img/wn/' + data.current.weather[0].icon + '.png">';
                             // city current temp info
                             var currentTempEl = document.querySelector('#temp');
                             currentTempEl.innerHTML = data.current.temp + '<span>&#176;</span>F';
@@ -118,7 +118,7 @@ var getMyWeather = function(cityName) {
                             forecastDateEl.innerHTML = moment.unix(data.daily[dayIndex].dt).format('MM/DD/YYYY');
                             // icon info
                             var forecastIconEl = document.querySelector('#'+ dayCard +'-icon');
-                            forecastIconEl.innerHTML = '<img src="http://openweathermap.org/img/wn/' + data.daily[dayIndex].weather[0].icon + '.png">'
+                            forecastIconEl.innerHTML = '<img src="https://openweathermap.org/img/wn/' + data.daily[dayIndex].weather[0].icon + '.png">'
                             // temp info
                             var forecastTempEl = document.querySelector('#'+ dayCard +'-temp');
                             forecastTempEl.innerHTML = data.daily[dayIndex].temp.max + '<span>&#176;</span>F';
