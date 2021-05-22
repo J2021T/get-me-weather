@@ -70,7 +70,7 @@ function saveCity () {
 
 // get weather data from OpenWeather
 var getMyWeather = function(cityName) {
-    fetch('http://api.openweathermap.org/geo/1.0/direct?q='+ cityName +'&limit=1&appid=f63a069e27328750769e0a8925c0d4d8').then(function(response) {
+    fetch('https://api.openweathermap.org/geo/1.0/direct?q='+ cityName +'&limit=1&appid=f63a069e27328750769e0a8925c0d4d8').then(function(response) {
         if (response.status !== 200) {
             alert('Either the city name you entered was invalid or the program is not working.  Please try again with a valid city name.');
         } else {

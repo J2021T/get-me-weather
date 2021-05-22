@@ -64,12 +64,12 @@ header {
     color: white;
 }
 
+.forecast {
+    margin-bottom: 20px;
+}
+
 @media only screen and (max-width: 576px) {
     #stored-cities {
         display: none;
-    }
-
-    .forecast {
-        margin-bottom: 20px;
     }
 }
