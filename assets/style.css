@@ -63,3 +63,13 @@ header {
     background-color: red;
     color: white;
 }
+
+@media only screen and (max-width: 576px) {
+    #stored-cities {
+        display: none;
+    }
+
+    .forecast {
+        margin-bottom: 20px;
+    }
+}
